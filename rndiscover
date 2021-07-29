@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+RNDIS_INFO="$(ip route | grep "dev rndis0")"
+GATEWAY="$(echo "$RNDIS_INFO" | awk '{print $1}')"
+SELF="$(echo "$RNDIS_INFO" | awk -F "src" '{print $2}' | awk '{print $1}')"
+NMAP="$(nmap -sn "$GATEWAY" --exclude "$SELF" -oG -)"
+echo "$NMAP" | grep "Host" | awk '{print $2}'
