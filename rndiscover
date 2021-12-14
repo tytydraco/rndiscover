@@ -1,13 +1,13 @@
-#!/usr/bin/env bash
+#!/system/bin/sh
 
 RNDIS_INFO="$(ip route | grep "dev rndis")"
 GATEWAY="$(echo "$RNDIS_INFO" | awk -F/ '{print $1}')"
 SELF="$(echo "$RNDIS_INFO" | awk -F "src" '{print $2}' | awk '{print $1}')"
 PREFIX="$(echo "$SELF" | cut -d. -f 1-3)"
 
-for ext in $(seq 0 254)
+for ext in $(seq 1 254)
 do
 	addr="$PREFIX.$ext"
 	[[ "$addr" == "$SELF" ]] && continue
-	toybox ping -q -c 1 "$addr" && echo "$addr" &
+	ping -q -c 1 "$addr" && echo "$addr" &
 done
