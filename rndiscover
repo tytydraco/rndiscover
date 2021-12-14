@@ -9,5 +9,5 @@ for ext in $(seq 1 254)
 do
 	addr="$PREFIX.$ext"
 	[[ "$addr" == "$SELF" ]] && continue
-	ping -q -c 1 "$addr" && echo "$addr" &
+	toybox ping -q -c 1 "$addr" && echo "$addr" &
 done
